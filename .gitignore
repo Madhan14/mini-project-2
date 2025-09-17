@@ -1,0 +1,17 @@
+# Ignore OS files
+*.log
+*.tmp
+*.swp
+
+# Ignore Python/Node build stuff (if any)
+__pycache__/
+node_modules/
+
+# Ignore Terraform local state
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Ignore Docker build artifacts
+*.tar

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trend-lb
+spec:
+  type: LoadBalancer
+  selector:
+    app: trend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
