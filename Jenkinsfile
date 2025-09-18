@@ -50,7 +50,7 @@ pipeline {
             kubectl set image deployment/trend-deployment trend=${DOCKERHUB_REPO}:${BUILD_NUMBER} --record || kubectl apply -f k8s/deployment.yaml
 
             # Ensure service exists (will create LB)
-            kubectl apply -f k8s/service-lb.yaml
+            kubectl apply -f k8s/service.yaml
 
             # Wait for rollout
             kubectl rollout status deployment/trend-deployment --timeout=180s
