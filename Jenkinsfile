@@ -4,7 +4,7 @@ pipeline {
   environment {
     // Edit these to match your setup, or override in Jenkins job config
     DOCKERHUB_REPO = "madhan14/trend"        // e.g. "<username>/trend"
-    EKS_CLUSTER     = "trend-project-eks"    // the EKS cluster name created by Terraform
+    EKS_CLUSTER     = "trend-eks"    // the EKS cluster name created by Terraform
     AWS_REGION      = "ap-south-1"
   }
 
