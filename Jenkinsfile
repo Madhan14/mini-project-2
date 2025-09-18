@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    # Edit these to match your setup, or override in Jenkins job config
+    // Edit these to match your setup, or override in Jenkins job config
     DOCKERHUB_REPO = "madhan14/trend"        // e.g. "<username>/trend"
     EKS_CLUSTER     = "trend-project-eks"    // the EKS cluster name created by Terraform
     AWS_REGION      = "ap-south-1"
@@ -25,11 +25,9 @@ pipeline {
 
     stage('Docker Login & Push') {
       steps {
-        // dockerhub-cred is a username/password credential (username=DOCKER_USER, password=DOCKER_PASS)
         withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
           sh "docker push ${env.DOCKERHUB_REPO}:${env.BUILD_NUMBER}"
-          // tag latest (optional)
           sh "docker tag ${env.DOCKERHUB_REPO}:${env.BUILD_NUMBER} ${env.DOCKERHUB_REPO}:latest || true"
           sh "docker push ${env.DOCKERHUB_REPO}:latest || true"
         }
@@ -38,7 +36,6 @@ pipeline {
 
     stage('Deploy to EKS') {
       steps {
-        // Option A: use stored AWS creds (aws-creds). If Jenkins EC2 has an IAM role, you can remove this withCredentials wrapper
         withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
             set -e
@@ -59,7 +56,7 @@ pipeline {
             kubectl rollout status deployment/trend-deployment --timeout=180s
 
             # Print service info (external DNS)
-            echo \"Service info:\"
+            echo "Service info:"
             kubectl get svc trend-lb -o wide
             kubectl get pods -l app=trend -o wide
           '''

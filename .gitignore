@@ -3,9 +3,7 @@
 *.tmp
 *.swp
 
-# Ignore Python/Node build stuff (if any)
-__pycache__/
-node_modules/
+
 
 # Ignore Terraform local state
 *.tfstate
